@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dag Dag Mods — Sims 4 mods with a killer goodbye</title>
+<meta name="description" content="Dag Dag Mods makes free gameplay mods for The Sims 4. Home of EndLife — every death in the game, one elegant menu.">
+<style>
+  :root {
+    --bg: #14141c; --panel: #1e1e2a; --ink: #e8e6f0; --dim: #9a96ad;
+    --accent: #7ee0a3; --danger: #e0707e;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--bg); color: var(--ink);
+         font: 17px/1.6 "Segoe UI", system-ui, sans-serif; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 24px; }
+  header { text-align: center; padding: 56px 0 32px; }
+  h1 { font-size: 2.6rem; letter-spacing: 1px; }
+  h1 .dag { color: var(--accent); }
+  .tag { color: var(--dim); margin-top: 8px; font-style: italic; }
+  .logo { width: 110px; height: 110px; margin-bottom: 12px; }
+  .card { background: var(--panel); border-radius: 14px; padding: 28px;
+          margin: 28px 0; }
+  .card h2 { font-size: 1.7rem; margin-bottom: 4px; }
+  .card .sub { color: var(--danger); font-weight: 600; margin-bottom: 14px; }
+  ul { padding-left: 22px; margin: 12px 0; }
+  li { margin: 5px 0; }
+  .btns { margin-top: 18px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn { display: inline-block; padding: 11px 22px; border-radius: 8px;
+         text-decoration: none; font-weight: 700; }
+  .btn.primary { background: var(--accent); color: #10231a; }
+  .btn.ghost { border: 2px solid var(--dim); color: var(--ink); }
+  .steps { color: var(--dim); }
+  .steps code { background: #2a2a3a; padding: 2px 6px; border-radius: 4px;
+                color: var(--ink); font-size: 0.85em; }
+  footer { text-align: center; color: var(--dim); font-size: 0.85rem;
+           padding: 32px 0 48px; }
+  footer a { color: var(--dim); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <!-- original Dag Dag Mods logo: a friendly skull waving goodbye -->
+  <svg class="logo" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dag Dag Mods logo">
+    <circle cx="60" cy="60" r="56" fill="#1e1e2a" stroke="#7ee0a3" stroke-width="3"/>
+    <!-- skull -->
+    <ellipse cx="57" cy="52" rx="26" ry="24" fill="#e8e6f0"/>
+    <rect x="46" y="68" width="22" height="12" rx="5" fill="#e8e6f0"/>
+    <!-- eyes: one open, one winking -->
+    <ellipse cx="48" cy="52" rx="6" ry="7" fill="#14141c"/>
+    <path d="M61 52 q6 -4 12 0" stroke="#14141c" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <!-- nose + tooth gaps -->
+    <path d="M56 60 l3 5 l3 -5 z" fill="#14141c"/>
+    <line x1="53" y1="70" x2="53" y2="78" stroke="#14141c" stroke-width="2"/>
+    <line x1="60" y1="70" x2="60" y2="78" stroke="#14141c" stroke-width="2"/>
+    <!-- waving bony hand -->
+    <g stroke="#e8e6f0" stroke-width="4" stroke-linecap="round">
+      <line x1="88" y1="74" x2="96" y2="52"/>
+      <line x1="96" y1="52" x2="92" y2="42"/>
+      <line x1="96" y1="52" x2="98" y2="41"/>
+      <line x1="96" y1="52" x2="103" y2="44"/>
+    </g>
+  </svg>
+  <h1><span class="dag">DAG DAG</span> MODS</h1>
+  <p class="tag">Sims 4 mods with a killer goodbye.</p>
+</header>
+
+<div class="card">
+  <h2>EndLife</h2>
+  <p class="sub">Every death in the game. One elegant menu.</p>
+  <p>Click any Sim → <strong>End Life...</strong> → choose from the game's
+  complete catalogue of demises: poison, Murphy bed, vicious killer rabbit,
+  broken heart, and everything else your packs provide. Full death scenes,
+  Grim Reaper included. Your own Sim walks away whistling.</p>
+  <ul>
+    <li>🎯 The clicked Sim dies — never your storyteller</li>
+    <li>🐶 Pets exempt; babies, infants &amp; toddlers protected</li>
+    <li>🧳 Visitors and walk-bys are valid victims</li>
+    <li>📦 No packs required — the menu adapts to what you own</li>
+    <li>⌨️ Console commands for off-lot arrangements</li>
+  </ul>
+  <div class="btns">
+    <a class="btn primary" href="#">Download on CurseForge</a>
+    <a class="btn ghost" href="#">Support on Patreon</a>
+  </div>
+</div>
+
+<div class="card steps">
+  <h2>Installing mods</h2>
+  <ol>
+    <li>Unzip into <code>Documents\Electronic Arts\The Sims 4\Mods</code></li>
+    <li>Game Options → Other → ✔ <em>Script Mods Allowed</em></li>
+    <li>Restart the game. Dag dag!</li>
+  </ol>
+</div>
+
+<footer>
+  <p>All mods free, forever. Donations welcome, never required.</p>
+  <p>Dag Dag Mods is not affiliated with or endorsed by Electronic Arts or Maxis.<br>
+  The Sims is a trademark of Electronic Arts Inc.</p>
+</footer>
+
+</div>
+</body>
+</html>
