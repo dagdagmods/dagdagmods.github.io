@@ -30,6 +30,8 @@
          text-decoration: none; font-weight: 700; }
   .btn.primary { background: var(--accent); color: #10231a; }
   .btn.ghost { border: 2px solid var(--dim); color: var(--ink); }
+  .dlcount { color: var(--dim); margin-top: 12px; font-size: 0.95rem; }
+  .dlcount b { color: var(--accent); }
   .steps { color: var(--dim); }
   .steps code { background: #2a2a3a; padding: 2px 6px; border-radius: 4px;
                 color: var(--ink); font-size: 0.85em; }
@@ -85,7 +87,24 @@
     <a class="btn primary" href="https://github.com/dagdagmods/dagdagmods.github.io/releases/download/v1.0.0/EndLife_v1.0.0.zip">Download EndLife v1.0</a>
     <a class="btn ghost" href="#">Support on Patreon</a>
   </div>
+  <p class="dlcount" id="dlcount" hidden>💀 <b id="dlnum"></b> goodbyes delivered</p>
 </div>
+
+<script>
+fetch('https://api.github.com/repos/dagdagmods/dagdagmods.github.io/releases')
+  .then(function (r) { return r.json(); })
+  .then(function (rels) {
+    var n = 0;
+    rels.forEach(function (rel) {
+      rel.assets.forEach(function (a) { n += a.download_count; });
+    });
+    if (n > 0) {
+      document.getElementById('dlnum').textContent = n.toLocaleString();
+      document.getElementById('dlcount').hidden = false;
+    }
+  })
+  .catch(function () {});
+</script>
 
 <div class="card steps">
   <h2>Installing mods</h2>
