@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Dag Dag Mods — Sims 4 mods with a killer goodbye</title>
-<meta name="description" content="Dag Dag Mods makes free gameplay mods for The Sims 4. Home of EndLife — every death in the game, one elegant menu.">
+<title>Dag Dag Mods: Sims 4 mods with a killer goodbye</title>
+<meta name="description" content="Dag Dag Mods makes free gameplay mods for The Sims 4. Home of EndLife: every death in the game, one elegant menu.">
 <style>
   :root {
     --bg: #14141c; --panel: #1e1e2a; --ink: #e8e6f0; --dim: #9a96ad;
@@ -30,8 +30,8 @@
          text-decoration: none; font-weight: 700; }
   .btn.primary { background: var(--accent); color: #10231a; }
   .btn.ghost { border: 2px solid var(--dim); color: var(--ink); }
-  .dlcount { color: var(--dim); margin-top: 12px; font-size: 0.95rem; }
-  .dlcount b { color: var(--accent); }
+  .alt { color: var(--dim); margin-top: 12px; font-size: 0.95rem; }
+  .alt a { color: var(--dim); }
   .steps { color: var(--dim); }
   .steps code { background: #2a2a3a; padding: 2px 6px; border-radius: 4px;
                 color: var(--ink); font-size: 0.85em; }
@@ -84,27 +84,11 @@
     <li>⌨️ Console commands handle Sims elsewhere in the world</li>
   </ul>
   <div class="btns">
-    <a class="btn primary" href="https://github.com/dagdagmods/dagdagmods.github.io/releases/download/v1.1.0/EndLife_v1.1.0.zip">Download EndLife v1.1</a>
+    <a class="btn primary" href="https://www.curseforge.com/sims4/mods/endlife" target="_blank" rel="noopener">Get EndLife on CurseForge</a>
     <a class="btn ghost" href="https://www.patreon.com/c/DagDagMods" target="_blank" rel="noopener">Support on Patreon</a>
   </div>
-  <p class="dlcount" id="dlcount" hidden>💀 <b id="dlnum"></b> permanent endings</p>
+  <p class="alt">Or <a href="https://github.com/dagdagmods/dagdagmods.github.io/releases/download/v1.1.0/EndLife_v1.1.0.zip">download v1.1 directly</a>.</p>
 </div>
-
-<script>
-fetch('https://api.github.com/repos/dagdagmods/dagdagmods.github.io/releases')
-  .then(function (r) { return r.json(); })
-  .then(function (rels) {
-    var n = 0;
-    rels.forEach(function (rel) {
-      rel.assets.forEach(function (a) { n += a.download_count; });
-    });
-    if (n > 0) {
-      document.getElementById('dlnum').textContent = n.toLocaleString();
-      document.getElementById('dlcount').hidden = false;
-    }
-  })
-  .catch(function () {});
-</script>
 
 <div class="card steps">
   <h2>Installing mods</h2>
