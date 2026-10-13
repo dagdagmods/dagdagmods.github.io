@@ -209,10 +209,11 @@
 
   /* ---- fun extras, switched on by body[data-fx]: "cursor", "sparkle" ----
      Preview any combo with ?fx=cursor, ?fx=sparkle or ?fx=cursor+sparkle. */
+  /* rainbow arrow: the script swaps --cur through img/cursor/c0..c11 as the mouse moves */
   body[data-fx~="cursor"], body[data-fx~="cursor"] * {
-    cursor: url(img/cursor-arrow.png) 4 2, auto; }
+    cursor: var(--cur, url(img/cursor/c0.png) 4 2, auto); }
   body[data-fx~="cursor"] a, body[data-fx~="cursor"] a *, body[data-fx~="cursor"] button,
-  body[data-fx~="cursor"] button * { cursor: url(img/cursor-hand.png) 13 1, pointer; }
+  body[data-fx~="cursor"] button * { cursor: pointer; }
   .spark { position: fixed; z-index: 50; pointer-events: none; width: 10px; height: 10px;
     margin: -5px 0 0 -5px; background: var(--c, #fff);
     clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
@@ -243,10 +244,24 @@
     const on = (document.body.dataset.fx || '').split(' ');
     const calm = window.matchMedia && (matchMedia('(prefers-reduced-motion: reduce)').matches ||
                                        matchMedia('(pointer: coarse)').matches);
-    if (!on.includes('sparkle') || calm) return;
-    const COLORS = ['#ffffff', '#bfe9ff', '#ffc8ec', '#c6ffe4', '#e6d6ff'];
+    const N = 12, frames = [];
+    let travel = 0, px = null, py = null, frame = 0;
+    if (on.includes('cursor')) {
+      for (let i = 0; i < N; i++) { const im = new Image(); im.src = `img/cursor/c${i}.png`; frames.push(im); }
+    }
+    const sparkle = on.includes('sparkle') && !calm;
+    if (!on.includes('cursor') && !sparkle) return;
     let last = 0, live = 0;
     addEventListener('mousemove', e => {
+      // Rainbow: step through the cursor frames every 30 px of mouse travel.
+      if (px !== null) travel += Math.hypot(e.clientX - px, e.clientY - py);
+      px = e.clientX; py = e.clientY;
+      const f = Math.floor(travel / 30) % N;
+      if (f !== frame && frames.length) {
+        frame = f;
+        document.body.style.setProperty('--cur', `url(img/cursor/c${f}.png) 4 2, auto`);
+      }
+      if (!sparkle) return;
       const now = performance.now();
       if (now - last < 45 || live > 24) return;
       last = now; live++;
@@ -254,7 +269,7 @@
       const size = 6 + Math.random() * 8;
       s.className = 'spark';
       s.style.cssText = `left:${e.clientX + 6}px;top:${e.clientY + 10}px;width:${size}px;height:${size}px;` +
-        `--c:${COLORS[Math.random() * COLORS.length | 0]};--dx:${(Math.random() - .5) * 24}px;--dy:${8 + Math.random() * 16}px`;
+        `--c:hsl(${(f * 360 / N + Math.random() * 60) % 360} 95% 80%);--dx:${(Math.random() - .5) * 24}px;--dy:${8 + Math.random() * 16}px`;
       document.body.appendChild(s);
       setTimeout(() => { s.remove(); live--; }, 820);
     }, { passive: true });
