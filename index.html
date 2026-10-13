@@ -36,6 +36,20 @@
   /* header */
   header { text-align: center; padding: 40px 0 20px; }
   h1 { line-height: 0; }
+  .logo-wrap { position: relative; display: inline-block; }
+  /* "Sul sul!" (Simlish: hello) in a glossy Aero speech bubble */
+  .hello { position: absolute; top: 4%; left: 88%; white-space: nowrap; transform: rotate(-6deg);
+           font: 600 clamp(.95rem, 3.2vw, 1.15rem) "Fredoka", "Segoe UI", sans-serif; color: #10305a;
+           padding: 6px 14px 7px; border-radius: 999px; line-height: 1.2;
+           background: radial-gradient(circle at 30% 20%, #fff 0 25%, rgba(255,255,255,0) 60%),
+                       linear-gradient(180deg, #e9fbff, #9fdcff);
+           border: 2px solid #fff; box-shadow: 0 6px 16px rgba(0, 20, 60, .35), inset 0 -3px 6px rgba(40, 120, 200, .25);
+           animation: bob 3.6s ease-in-out infinite; }
+  .hello::after { content: ""; position: absolute; left: 10px; bottom: -9px; width: 14px; height: 14px;
+           background: #b6e6ff; border: 2px solid #fff; border-top: 0; border-left: 0;
+           transform: rotate(45deg) skew(10deg, 10deg); border-radius: 0 0 4px 0; }
+  @keyframes bob { 50% { transform: rotate(-6deg) translateY(-4px); } }
+  @media (prefers-reduced-motion: reduce) { .hello { animation: none; } }
   .brand { width: clamp(150px, 42vw, 210px); height: auto; display: inline-block;
            filter: drop-shadow(0 12px 28px rgba(180, 200, 255, .18)); }
   .tag { color: var(--dim); margin-top: 12px; }
@@ -260,9 +274,9 @@
 
 <header>
   <!-- brand tile (pearly Fine moodlet), made with SimsModding/branding/moodlet_logo_export.html -->
-  <h1><img class="brand" src="img/dagdagmods.png" alt="Dag Dag Mods" width="440" height="440"></h1>
-  <p class="motto">Mods for every mood.</p>
-  <p class="tag">Free mods for The Sims 4.</p>
+  <div class="logo-wrap"><h1><img class="brand" src="img/dagdagmods.png" alt="Dag Dag Mods" width="440" height="440"></h1><span class="hello" aria-hidden="true">Sul sul!</span></div>
+  <p class="motto">Mods for every mood</p>
+  <p class="tag">Free mods for The Sims 4</p>
 </header>
 
 <nav class="bar" id="bar" role="tablist" aria-label="Mods"></nav>
@@ -339,7 +353,7 @@
     <a href="https://www.tiktok.com/@dagdagmods.sims" target="_blank" rel="noopener">TikTok</a>
     <a href="https://dagdagmods.tumblr.com" target="_blank" rel="noopener">Tumblr</a>
   </div>
-  <p>All mods free, forever. Donations welcome, never required.</p>
+  <p>All mods free, forever. Donations welcome, never required. Vadish!</p>
   <p>Dag Dag Mods is not affiliated with or endorsed by Electronic Arts or Maxis.<br>
   The Sims is a trademark of Electronic Arts Inc.</p>
 </footer>
