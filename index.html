@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Dag Dag Mods: free mods for The Sims 4</title>
-<meta name="description" content="Dag Dag Mods makes free mods for The Sims 4: EndLife and Real Retirement.">
+<title>Dag Dag Mods: Sims 4 mods for every mood</title>
+<meta name="description" content="Dag Dag Mods makes free mods for The Sims 4: End Life and Real Retirement.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&display=swap" rel="stylesheet">
@@ -39,6 +39,10 @@
   .brand { width: clamp(150px, 42vw, 210px); height: auto; display: inline-block;
            filter: drop-shadow(0 12px 28px rgba(180, 200, 255, .18)); }
   .tag { color: var(--dim); margin-top: 12px; }
+  .motto { font: 600 clamp(1.5rem, 5vw, 1.9rem)/1.15 "Fredoka", "Segoe UI", sans-serif; color: #f4fbff;
+           margin-top: 14px; letter-spacing: .3px; text-shadow: 0 2px 10px rgba(0, 10, 40, .7); }
+  .motto + .tag { margin-top: 4px; }
+  body[data-theme="light"] .motto { color: #16204a; text-shadow: 0 1px 10px rgba(255,255,255,.9); }
 
   /* the moodlet bar: one tile per mod */
   .bar { display: flex; justify-content: center; flex-wrap: wrap; gap: 18px;
@@ -257,17 +261,18 @@
 <header>
   <!-- brand tile (pearly Fine moodlet), made with SimsModding/branding/moodlet_logo_export.html -->
   <h1><img class="brand" src="img/dagdagmods.png" alt="Dag Dag Mods" width="440" height="440"></h1>
-  <p class="tag">Mods for The Sims 4. Free, always.</p>
+  <p class="motto">Mods for every mood.</p>
+  <p class="tag">Free for The Sims 4, always.</p>
 </header>
 
 <nav class="bar" id="bar" role="tablist" aria-label="Mods"></nav>
 
 <main class="mods">
 
-<section class="mod" id="endlife" data-name="EndLife" data-logo="img/logos/endlife.png"
+<section class="mod" id="endlife" data-name="End Life" data-logo="img/logos/endlife.png"
          data-c1="#8E0A6A" data-c2="#EB334F">
   <div class="mod-head">
-    <h2>EndLife</h2>
+    <h2>End Life</h2>
     <p>Every death in the game. One menu. No cheats required.</p>
   </div>
   <div class="mod-body">
@@ -283,7 +288,7 @@
       <li>No packs required: the menu adapts to what you own</li>
     </ul>
     <div class="btns">
-      <a class="btn primary" href="https://www.curseforge.com/sims4/mods/endlife" target="_blank" rel="noopener">Get EndLife on CurseForge</a>
+      <a class="btn primary" href="https://www.curseforge.com/sims4/mods/endlife" target="_blank" rel="noopener">Get End Life on CurseForge</a>
     </div>
     <p class="alt">Or <a href="https://github.com/dagdagmods/dagdagmods.github.io/releases/download/v1.1.0/EndLife_v1.1.0.zip">download v1.1 directly</a>.</p>
   </div>
@@ -309,7 +314,7 @@
     </ul>
     <!-- After CurseForge approval: swap to the CurseForge button
          (https://www.curseforge.com/sims4/mods/real-retirement) and make the
-         direct download the "Or ..." line, like EndLife. -->
+         direct download the "Or ..." line, like End Life. -->
     <div class="btns">
       <a class="btn primary" href="https://github.com/dagdagmods/dagdagmods.github.io/releases/download/realretirement-v1.0.0/RealRetirement_v1.0.0.zip">Download Real Retirement 1.0</a>
     </div>
