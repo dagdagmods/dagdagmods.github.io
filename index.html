@@ -108,6 +108,121 @@
   footer .links a:hover { color: var(--accent); }
   footer p { margin-top: 6px; }
 
+  /* ---- background: Y2K night sky (Frutiger Aero + vaporwave), all CSS ----
+     body[data-bg] picks the look: aero | vapor | mix. Preview any with ?bg=. */
+  body { background: #070b1f; }
+  .sky { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+  .sky > * { position: absolute; inset: 0; }
+  .sky .base { background: linear-gradient(180deg, #06122e 0%, #0a2350 38%, #12245a 62%, #1a1440 100%); }
+  .sky .aurora { opacity: .9;
+    background:
+      radial-gradient(60% 40% at 18% 0%, rgba(70, 210, 255, .38), transparent 70%),
+      radial-gradient(45% 35% at 88% 6%, rgba(120, 255, 200, .22), transparent 70%),
+      radial-gradient(70% 45% at 50% 105%, rgba(255, 110, 210, .20), transparent 70%); }
+  .sky .beams { opacity: .5; mix-blend-mode: screen;
+    background:
+      linear-gradient(115deg, transparent 28%, rgba(160, 230, 255, .10) 34%, transparent 40%),
+      linear-gradient(115deg, transparent 50%, rgba(160, 230, 255, .07) 55%, transparent 61%),
+      linear-gradient(115deg, transparent 70%, rgba(200, 180, 255, .06) 74%, transparent 79%); }
+  .sky .sun { display: none; }
+  .sky .grid { top: auto; height: 42vh; opacity: .55;
+    background:
+      linear-gradient(transparent 0 calc(100% - 1px), rgba(255, 120, 230, .55) 0) 0 0 / 100% 46px,
+      linear-gradient(90deg, transparent 0 calc(100% - 1px), rgba(80, 230, 255, .5) 0) 0 0 / 70px 100%;
+    transform: perspective(380px) rotateX(62deg); transform-origin: 50% 100%;
+    -webkit-mask-image: linear-gradient(transparent, #000 60%); mask-image: linear-gradient(transparent, #000 60%); }
+  .sky .bubbles span { position: absolute; bottom: -120px; border-radius: 50%;
+    background:
+      radial-gradient(circle at 32% 28%, rgba(255,255,255,.85) 0 7%, rgba(255,255,255,0) 18%),
+      radial-gradient(circle at 50% 50%, rgba(140, 230, 255, 0) 55%, rgba(140, 230, 255, .35) 70%, rgba(255,255,255,.55) 74%, rgba(140, 230, 255, 0) 76%);
+    box-shadow: inset 0 -6px 14px rgba(120, 255, 220, .12);
+    animation: rise linear infinite; }
+  @keyframes rise { to { transform: translate(var(--drift, 30px), -125vh); } }
+  .sky .stars i { position: absolute; width: 3px; height: 3px; border-radius: 50%; background: #fff;
+    box-shadow: 0 0 6px 2px rgba(190, 230, 255, .8); animation: twinkle 3.2s ease-in-out infinite; }
+  @keyframes twinkle { 50% { opacity: .15; transform: scale(.6); } }
+
+  body[data-bg="aero"] .grid { display: none; }
+  body[data-bg="vapor"] .base { background: linear-gradient(180deg, #0d0326 0%, #2a0b4d 45%, #571a6b 72%, #8a2a6e 100%); }
+  body[data-bg="vapor"] .aurora, body[data-bg="vapor"] .beams, body[data-bg="vapor"] .bubbles { display: none; }
+  body[data-bg="vapor"] .grid { opacity: .85; height: 46vh; }
+  body[data-bg="vapor"] .sun { display: block; inset: auto; right: 4vw; bottom: 6vh; width: min(34vw, 340px);
+    aspect-ratio: 1; border-radius: 50%; opacity: .75;
+    background: linear-gradient(180deg, #ffe27a 0%, #ff9a8b 45%, #ff4fb0 100%);
+    -webkit-mask-image: repeating-linear-gradient(180deg, #000 0 58%, transparent 58% 62%);
+    mask-image: linear-gradient(180deg, #000 52%, transparent 52% 56%, #000 56% 66%, transparent 66% 71%, #000 71% 79%, transparent 79% 85%, #000 85%); }
+  body[data-bg="mix"] .grid { opacity: .32; height: 34vh; }
+  .sky .clouds { display: none; }
+
+  /* light looks: aero-day | pastel | clouds (data-theme="light" flips the panels) */
+  body[data-bg="aero-day"] .base { background: linear-gradient(180deg, #2f9ef0 0%, #7cc8fb 34%, #c8ecff 64%, #effcf6 100%); }
+  body[data-bg="aero-day"] .aurora { background:
+      radial-gradient(55% 40% at 15% 0%, rgba(255,255,255,.7), transparent 70%),
+      radial-gradient(80% 40% at 50% 112%, rgba(110, 230, 150, .45), transparent 70%),
+      radial-gradient(40% 30% at 90% 20%, rgba(170, 255, 240, .35), transparent 70%); }
+  body[data-bg="aero-day"] .beams { opacity: 1; }
+  body[data-bg="aero-day"] .grid, body[data-bg="aero-day"] .stars { display: none; }
+
+  body[data-bg="pastel"] .base { background: linear-gradient(180deg, #bfe9ff 0%, #dcd2ff 42%, #ffd1ea 75%, #ffe9d6 100%); }
+  body[data-bg="pastel"] .aurora { background:
+      radial-gradient(50% 35% at 20% 5%, rgba(255,255,255,.6), transparent 70%),
+      radial-gradient(50% 35% at 85% 15%, rgba(190, 255, 240, .5), transparent 70%); }
+  body[data-bg="pastel"] .beams, body[data-bg="pastel"] .stars { display: none; }
+  body[data-bg="pastel"] .grid { opacity: .6; height: 38vh;
+    background:
+      linear-gradient(transparent 0 calc(100% - 2px), rgba(255, 120, 200, .55) 0) 0 0 / 100% 46px,
+      linear-gradient(90deg, transparent 0 calc(100% - 2px), rgba(90, 170, 255, .5) 0) 0 0 / 70px 100%; }
+  body[data-bg="pastel"] .sun { display: block; inset: auto; right: 4vw; bottom: 6vh; width: min(34vw, 340px);
+    aspect-ratio: 1; border-radius: 50%; opacity: .7;
+    background: linear-gradient(180deg, #fff3b0 0%, #ffc2d6 55%, #ff9fd2 100%);
+    mask-image: linear-gradient(180deg, #000 52%, transparent 52% 56%, #000 56% 66%, transparent 66% 71%, #000 71% 79%, transparent 79% 85%, #000 85%);
+    -webkit-mask-image: linear-gradient(180deg, #000 52%, transparent 52% 56%, #000 56% 66%, transparent 66% 71%, #000 71% 79%, transparent 79% 85%, #000 85%); }
+
+  body[data-bg="clouds"] .base { background: linear-gradient(180deg, #2a86e8 0%, #5aaeff 40%, #a9dcff 75%, #e3f5ff 100%); }
+  body[data-bg="clouds"] .aurora { background: radial-gradient(60% 40% at 50% 0%, rgba(255,255,255,.35), transparent 70%); }
+  body[data-bg="clouds"] .beams, body[data-bg="clouds"] .grid, body[data-bg="clouds"] .stars { display: none; }
+  body[data-bg="clouds"] .clouds { display: block; }
+  .sky .clouds b { position: absolute; display: block; width: var(--w, 260px); aspect-ratio: 2.6;
+    background:
+      radial-gradient(closest-side at 30% 62%, #fff 96%, transparent),
+      radial-gradient(closest-side at 52% 40%, #fff 96%, transparent),
+      radial-gradient(closest-side at 72% 60%, #fff 96%, transparent),
+      radial-gradient(closest-side at 50% 75%, #f2f8ff 96%, transparent);
+    background-size: 46% 70%, 50% 90%, 42% 66%, 80% 50%;
+    background-position: 8% 80%, 45% 20%, 88% 76%, 50% 100%;
+    background-repeat: no-repeat; opacity: .85; filter: blur(1.5px) drop-shadow(0 8px 10px rgba(60, 120, 200, .25));
+    animation: drift linear infinite; }
+  @keyframes drift { from { transform: translateX(-30vw); } to { transform: translateX(130vw); } }
+
+  body[data-theme="light"] { --ink: #1b2142; --dim: #4a5480; --panel2: rgba(30, 60, 140, .08); }
+  body[data-theme="light"] .mod, body[data-theme="light"] .card {
+    background: rgba(255, 255, 255, .74); border-color: rgba(255,255,255,.9);
+    box-shadow: 0 0 0 3px rgba(255,255,255,.55), inset 0 1px 0 #fff, 0 18px 40px -18px rgba(30, 70, 140, .45); }
+  body[data-theme="light"] .tag, body[data-theme="light"] footer, body[data-theme="light"] footer .links a {
+    color: #24305e; text-shadow: 0 1px 8px rgba(255,255,255,.9); }
+  body[data-theme="light"] .tile { color: #33406e; text-shadow: 0 1px 6px rgba(255,255,255,.9); }
+  body[data-theme="light"] .tile[aria-selected="true"] { color: #141a38; }
+  body[data-theme="light"] .tile img { filter: saturate(.75) brightness(.95); }
+  body[data-theme="light"] .tile:hover img, body[data-theme="light"] .tile[aria-selected="true"] img { filter: none; }
+  body[data-theme="light"] .shot { border-color: rgba(0, 20, 60, .25); }
+  body[data-theme="light"] .brand { filter: drop-shadow(0 12px 24px rgba(30, 70, 160, .35)); }
+  body[data-theme="light"] .sky .bubbles span { background:
+      radial-gradient(circle at 32% 28%, rgba(255,255,255,.95) 0 7%, rgba(255,255,255,0) 18%),
+      radial-gradient(circle at 50% 50%, rgba(255,255,255,.08) 55%, rgba(60, 170, 230, .35) 70%, rgba(255,255,255,.9) 74%, rgba(255,255,255,0) 77%); }
+
+  /* glassy panels so the sky shows through a little (Frutiger Aero glass) */
+  .mod, .card { background: rgba(22, 22, 42, .86); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+                box-shadow: 0 0 0 3px rgba(255,255,255,.08), inset 0 1px 0 rgba(255,255,255,.12),
+                            0 18px 40px -18px rgba(0, 0, 0, .8); }
+  .tag, footer { text-shadow: 0 1px 6px rgba(0, 0, 20, .8); }
+  .tag { color: #b9c4e8; }
+  footer, footer .links a { color: #b9c4e8; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sky .bubbles span, .sky .stars i { animation: none; }
+    .sky .bubbles span { bottom: auto; top: var(--y, 50%); }
+  }
+
   @media (max-width: 560px) {
     .bar { gap: 10px; }
     .tile { width: 88px; font-size: 0.85rem; }
@@ -116,8 +231,44 @@
   }
 </style>
 </head>
-<body>
+<body data-bg="mix">
 <script>document.documentElement.className = 'js';</script>
+<div class="sky" aria-hidden="true">
+  <div class="base"></div><div class="aurora"></div><div class="beams"></div>
+  <div class="sun"></div><div class="grid"></div><div class="clouds"></div><div class="bubbles"></div><div class="stars"></div>
+</div>
+<script>
+  // Background look: body data-bg (preview others with ?bg=aero|vapor|mix|aero-day|pastel|clouds).
+  (function () {
+    const LIGHT = ['aero-day', 'pastel', 'clouds'];
+    const want = new URLSearchParams(location.search).get('bg');
+    if (want) document.body.dataset.bg = want;
+    document.body.dataset.theme = LIGHT.includes(document.body.dataset.bg) ? 'light' : 'dark';
+    // Fixed pseudo-random layout so the sky looks the same on every visit.
+    let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const bub = document.querySelector('.sky .bubbles'), st = document.querySelector('.sky .stars'),
+          cl = document.querySelector('.sky .clouds');
+    for (let i = 0; i < 14; i++) {
+      const s = document.createElement('span'), d = 18 + rnd() * 70;
+      s.style.cssText = `left:${rnd() * 100}%;width:${d}px;height:${d}px;` +
+        `animation-duration:${22 + rnd() * 26}s;animation-delay:${-rnd() * 40}s;` +
+        `--drift:${(rnd() - .5) * 120}px;--y:${rnd() * 90}%`;
+      bub.appendChild(s);
+    }
+    for (let i = 0; i < 40; i++) {
+      const s = document.createElement('i');
+      s.style.cssText = `left:${rnd() * 100}%;top:${rnd() * 70}%;animation-delay:${-rnd() * 4}s;` +
+        `transform:scale(${.4 + rnd() * .8})`;
+      st.appendChild(s);
+    }
+    for (let i = 0; i < 7; i++) {
+      const c = document.createElement('b');
+      c.style.cssText = `top:${4 + rnd() * 70}%;--w:${180 + rnd() * 240}px;` +
+        `animation-duration:${90 + rnd() * 80}s;animation-delay:${-rnd() * 160}s`;
+      cl.appendChild(c);
+    }
+  })();
+</script>
 <div class="wrap">
 
 <header>
@@ -200,7 +351,7 @@
     <a href="https://www.tiktok.com/@dagdagmods.sims" target="_blank" rel="noopener">TikTok</a>
     <a href="https://dagdagmods.tumblr.com" target="_blank" rel="noopener">Tumblr</a>
   </div>
-  <p>All mods free, forever. Donations welcome, never required. 💀</p>
+  <p>All mods free, forever. Donations welcome, never required.</p>
   <p>Dag Dag Mods is not affiliated with or endorsed by Electronic Arts or Maxis.<br>
   The Sims is a trademark of Electronic Arts Inc.</p>
 </footer>
