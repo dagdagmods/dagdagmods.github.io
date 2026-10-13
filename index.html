@@ -207,6 +207,19 @@
   .tag { color: #b9c4e8; }
   footer, footer .links a { color: #b9c4e8; }
 
+  /* ---- fun extras, switched on by body[data-fx]: "cursor", "sparkle" ----
+     Preview any combo with ?fx=cursor, ?fx=sparkle or ?fx=cursor+sparkle. */
+  body[data-fx~="cursor"], body[data-fx~="cursor"] * {
+    cursor: url(img/cursor-arrow.png) 4 2, auto; }
+  body[data-fx~="cursor"] a, body[data-fx~="cursor"] a *, body[data-fx~="cursor"] button,
+  body[data-fx~="cursor"] button * { cursor: url(img/cursor-hand.png) 13 1, pointer; }
+  .spark { position: fixed; z-index: 50; pointer-events: none; width: 10px; height: 10px;
+    margin: -5px 0 0 -5px; background: var(--c, #fff);
+    clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+    filter: drop-shadow(0 0 3px rgba(255,255,255,.9));
+    animation: spark .8s ease-out forwards; }
+  @keyframes spark { to { transform: translate(var(--dx), var(--dy)) scale(.2) rotate(90deg); opacity: 0; } }
+
   @media (prefers-reduced-motion: reduce) {
     .sky .bubbles span, .sky .stars i { animation: none; }
     .sky .bubbles span { bottom: auto; top: var(--y, 50%); }
@@ -223,6 +236,29 @@
 <body data-theme="dark">
 <script>
   document.documentElement.className = 'js';
+  // Fun extras (cursor / sparkle): off unless body has data-fx or ?fx= is in the URL.
+  (function () {
+    const fx = new URLSearchParams(location.search).get('fx');
+    if (fx !== null) document.body.dataset.fx = fx.replace(/[+,]/g, ' ');
+    const on = (document.body.dataset.fx || '').split(' ');
+    const calm = window.matchMedia && (matchMedia('(prefers-reduced-motion: reduce)').matches ||
+                                       matchMedia('(pointer: coarse)').matches);
+    if (!on.includes('sparkle') || calm) return;
+    const COLORS = ['#ffffff', '#bfe9ff', '#ffc8ec', '#c6ffe4', '#e6d6ff'];
+    let last = 0, live = 0;
+    addEventListener('mousemove', e => {
+      const now = performance.now();
+      if (now - last < 45 || live > 24) return;
+      last = now; live++;
+      const s = document.createElement('i');
+      const size = 6 + Math.random() * 8;
+      s.className = 'spark';
+      s.style.cssText = `left:${e.clientX + 6}px;top:${e.clientY + 10}px;width:${size}px;height:${size}px;` +
+        `--c:${COLORS[Math.random() * COLORS.length | 0]};--dx:${(Math.random() - .5) * 24}px;--dy:${8 + Math.random() * 16}px`;
+      document.body.appendChild(s);
+      setTimeout(() => { s.remove(); live--; }, 820);
+    }, { passive: true });
+  })();
   // Theme: the visitor's saved choice, else their device setting.
   (function () {
     let saved = null;
