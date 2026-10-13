@@ -108,11 +108,13 @@
   footer .links a:hover { color: var(--accent); }
   footer p { margin-top: 6px; }
 
-  /* ---- background: Y2K night sky (Frutiger Aero + vaporwave), all CSS ----
-     body[data-bg] picks the look: aero | vapor | mix. Preview any with ?bg=. */
+  /* ---- background: Frutiger Aero sky, all CSS ----
+     Two themes on body[data-theme]: dark = Aero night, light = Aero day.
+     Follows the device setting; the corner button switches and remembers. */
   body { background: #070b1f; }
+  body[data-theme="light"] { background: #9fd8ff; }
   .sky { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
-  .sky > * { position: absolute; inset: 0; }
+  .sky > * { position: absolute; inset: 0; transition: opacity .6s ease; }
   .sky .base { background: linear-gradient(180deg, #06122e 0%, #0a2350 38%, #12245a 62%, #1a1440 100%); }
   .sky .aurora { opacity: .9;
     background:
@@ -124,13 +126,6 @@
       linear-gradient(115deg, transparent 28%, rgba(160, 230, 255, .10) 34%, transparent 40%),
       linear-gradient(115deg, transparent 50%, rgba(160, 230, 255, .07) 55%, transparent 61%),
       linear-gradient(115deg, transparent 70%, rgba(200, 180, 255, .06) 74%, transparent 79%); }
-  .sky .sun { display: none; }
-  .sky .grid { top: auto; height: 42vh; opacity: .55;
-    background:
-      linear-gradient(transparent 0 calc(100% - 1px), rgba(255, 120, 230, .55) 0) 0 0 / 100% 46px,
-      linear-gradient(90deg, transparent 0 calc(100% - 1px), rgba(80, 230, 255, .5) 0) 0 0 / 70px 100%;
-    transform: perspective(380px) rotateX(62deg); transform-origin: 50% 100%;
-    -webkit-mask-image: linear-gradient(transparent, #000 60%); mask-image: linear-gradient(transparent, #000 60%); }
   .sky .bubbles span { position: absolute; bottom: -120px; border-radius: 50%;
     background:
       radial-gradient(circle at 32% 28%, rgba(255,255,255,.85) 0 7%, rgba(255,255,255,0) 18%),
@@ -142,58 +137,14 @@
     box-shadow: 0 0 6px 2px rgba(190, 230, 255, .8); animation: twinkle 3.2s ease-in-out infinite; }
   @keyframes twinkle { 50% { opacity: .15; transform: scale(.6); } }
 
-  body[data-bg="aero"] .grid { display: none; }
-  body[data-bg="vapor"] .base { background: linear-gradient(180deg, #0d0326 0%, #2a0b4d 45%, #571a6b 72%, #8a2a6e 100%); }
-  body[data-bg="vapor"] .aurora, body[data-bg="vapor"] .beams, body[data-bg="vapor"] .bubbles { display: none; }
-  body[data-bg="vapor"] .grid { opacity: .85; height: 46vh; }
-  body[data-bg="vapor"] .sun { display: block; inset: auto; right: 4vw; bottom: 6vh; width: min(34vw, 340px);
-    aspect-ratio: 1; border-radius: 50%; opacity: .75;
-    background: linear-gradient(180deg, #ffe27a 0%, #ff9a8b 45%, #ff4fb0 100%);
-    -webkit-mask-image: repeating-linear-gradient(180deg, #000 0 58%, transparent 58% 62%);
-    mask-image: linear-gradient(180deg, #000 52%, transparent 52% 56%, #000 56% 66%, transparent 66% 71%, #000 71% 79%, transparent 79% 85%, #000 85%); }
-  body[data-bg="mix"] .grid { opacity: .32; height: 34vh; }
-  .sky .clouds { display: none; }
-
-  /* light looks: aero-day | pastel | clouds (data-theme="light" flips the panels) */
-  body[data-bg="aero-day"] .base { background: linear-gradient(180deg, #2f9ef0 0%, #7cc8fb 34%, #c8ecff 64%, #effcf6 100%); }
-  body[data-bg="aero-day"] .aurora { background:
+  /* light theme: Aero day sky, frosted white panels, dark text */
+  body[data-theme="light"] .base { background: linear-gradient(180deg, #2f9ef0 0%, #7cc8fb 34%, #c8ecff 64%, #effcf6 100%); }
+  body[data-theme="light"] .aurora { background:
       radial-gradient(55% 40% at 15% 0%, rgba(255,255,255,.7), transparent 70%),
       radial-gradient(80% 40% at 50% 112%, rgba(110, 230, 150, .45), transparent 70%),
       radial-gradient(40% 30% at 90% 20%, rgba(170, 255, 240, .35), transparent 70%); }
-  body[data-bg="aero-day"] .beams { opacity: 1; }
-  body[data-bg="aero-day"] .grid, body[data-bg="aero-day"] .stars { display: none; }
-
-  body[data-bg="pastel"] .base { background: linear-gradient(180deg, #bfe9ff 0%, #dcd2ff 42%, #ffd1ea 75%, #ffe9d6 100%); }
-  body[data-bg="pastel"] .aurora { background:
-      radial-gradient(50% 35% at 20% 5%, rgba(255,255,255,.6), transparent 70%),
-      radial-gradient(50% 35% at 85% 15%, rgba(190, 255, 240, .5), transparent 70%); }
-  body[data-bg="pastel"] .beams, body[data-bg="pastel"] .stars { display: none; }
-  body[data-bg="pastel"] .grid { opacity: .6; height: 38vh;
-    background:
-      linear-gradient(transparent 0 calc(100% - 2px), rgba(255, 120, 200, .55) 0) 0 0 / 100% 46px,
-      linear-gradient(90deg, transparent 0 calc(100% - 2px), rgba(90, 170, 255, .5) 0) 0 0 / 70px 100%; }
-  body[data-bg="pastel"] .sun { display: block; inset: auto; right: 4vw; bottom: 6vh; width: min(34vw, 340px);
-    aspect-ratio: 1; border-radius: 50%; opacity: .7;
-    background: linear-gradient(180deg, #fff3b0 0%, #ffc2d6 55%, #ff9fd2 100%);
-    mask-image: linear-gradient(180deg, #000 52%, transparent 52% 56%, #000 56% 66%, transparent 66% 71%, #000 71% 79%, transparent 79% 85%, #000 85%);
-    -webkit-mask-image: linear-gradient(180deg, #000 52%, transparent 52% 56%, #000 56% 66%, transparent 66% 71%, #000 71% 79%, transparent 79% 85%, #000 85%); }
-
-  body[data-bg="clouds"] .base { background: linear-gradient(180deg, #2a86e8 0%, #5aaeff 40%, #a9dcff 75%, #e3f5ff 100%); }
-  body[data-bg="clouds"] .aurora { background: radial-gradient(60% 40% at 50% 0%, rgba(255,255,255,.35), transparent 70%); }
-  body[data-bg="clouds"] .beams, body[data-bg="clouds"] .grid, body[data-bg="clouds"] .stars { display: none; }
-  body[data-bg="clouds"] .clouds { display: block; }
-  .sky .clouds b { position: absolute; display: block; width: var(--w, 260px); aspect-ratio: 2.6;
-    background:
-      radial-gradient(closest-side at 30% 62%, #fff 96%, transparent),
-      radial-gradient(closest-side at 52% 40%, #fff 96%, transparent),
-      radial-gradient(closest-side at 72% 60%, #fff 96%, transparent),
-      radial-gradient(closest-side at 50% 75%, #f2f8ff 96%, transparent);
-    background-size: 46% 70%, 50% 90%, 42% 66%, 80% 50%;
-    background-position: 8% 80%, 45% 20%, 88% 76%, 50% 100%;
-    background-repeat: no-repeat; opacity: .85; filter: blur(1.5px) drop-shadow(0 8px 10px rgba(60, 120, 200, .25));
-    animation: drift linear infinite; }
-  @keyframes drift { from { transform: translateX(-30vw); } to { transform: translateX(130vw); } }
-
+  body[data-theme="light"] .beams { opacity: 1; }
+  body[data-theme="light"] .stars { opacity: 0; }
   body[data-theme="light"] { --ink: #1b2142; --dim: #4a5480; --panel2: rgba(30, 60, 140, .08); }
   body[data-theme="light"] .mod, body[data-theme="light"] .card {
     background: rgba(255, 255, 255, .74); border-color: rgba(255,255,255,.9);
@@ -209,6 +160,21 @@
   body[data-theme="light"] .sky .bubbles span { background:
       radial-gradient(circle at 32% 28%, rgba(255,255,255,.95) 0 7%, rgba(255,255,255,0) 18%),
       radial-gradient(circle at 50% 50%, rgba(255,255,255,.08) 55%, rgba(60, 170, 230, .35) 70%, rgba(255,255,255,.9) 74%, rgba(255,255,255,0) 77%); }
+
+  /* the sun/moon switch, a little glass bubble in the corner */
+  .theme { position: fixed; top: 14px; right: 14px; z-index: 5; width: 44px; height: 44px;
+    border-radius: 50%; border: 1px solid rgba(255,255,255,.5); cursor: pointer; padding: 0;
+    display: grid; place-items: center; color: #fff;
+    background: radial-gradient(circle at 32% 26%, rgba(255,255,255,.7) 0 10%, rgba(255,255,255,0) 30%),
+                linear-gradient(180deg, rgba(120, 200, 255, .55), rgba(40, 70, 160, .55));
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+    box-shadow: 0 4px 14px rgba(0, 10, 40, .4), inset 0 -3px 8px rgba(0, 20, 80, .3); }
+  .theme:hover { filter: brightness(1.12); }
+  .theme:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+  .theme svg { width: 22px; height: 22px; filter: drop-shadow(0 1px 2px rgba(0, 10, 40, .6)); }
+  .theme .sun-i { display: none; }
+  body[data-theme="dark"] .theme .moon-i { display: none; }
+  body[data-theme="dark"] .theme .sun-i { display: block; }
 
   /* glassy panels so the sky shows through a little (Frutiger Aero glass) */
   .mod, .card { background: rgba(22, 22, 42, .86); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
@@ -231,23 +197,46 @@
   }
 </style>
 </head>
-<body data-bg="mix">
-<script>document.documentElement.className = 'js';</script>
+<body data-theme="dark">
+<script>
+  document.documentElement.className = 'js';
+  // Theme: the visitor's saved choice, else their device setting.
+  (function () {
+    let saved = null;
+    try { saved = localStorage.getItem('theme'); } catch (e) {}
+    const light = window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches;
+    document.body.dataset.theme = saved || (light ? 'light' : 'dark');
+  })();
+</script>
 <div class="sky" aria-hidden="true">
   <div class="base"></div><div class="aurora"></div><div class="beams"></div>
-  <div class="sun"></div><div class="grid"></div><div class="clouds"></div><div class="bubbles"></div><div class="stars"></div>
+  <div class="bubbles"></div><div class="stars"></div>
 </div>
+<button class="theme" id="theme" type="button" aria-label="Switch light or dark">
+  <svg class="moon-i" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.5 14.6A8.5 8.5 0 0 1 9.4 3.5a8.5 8.5 0 1 0 11.1 11.1z"/></svg>
+  <svg class="sun-i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><path d="M12 1.8v2.4M12 19.8v2.4M1.8 12h2.4M19.8 12h2.4M4.8 4.8l1.7 1.7M17.5 17.5l1.7 1.7M4.8 19.2l1.7-1.7M17.5 6.5l1.7-1.7"/></svg>
+</button>
 <script>
-  // Background look: body data-bg (preview others with ?bg=aero|vapor|mix|aero-day|pastel|clouds).
   (function () {
-    const LIGHT = ['aero-day', 'pastel', 'clouds'];
-    const want = new URLSearchParams(location.search).get('bg');
-    if (want) document.body.dataset.bg = want;
-    document.body.dataset.theme = LIGHT.includes(document.body.dataset.bg) ? 'light' : 'dark';
+    const btn = document.getElementById('theme');
+    const label = () => btn.setAttribute('aria-label',
+      document.body.dataset.theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+    label();
+    btn.addEventListener('click', () => {
+      const next = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+      document.body.dataset.theme = next;
+      try { localStorage.setItem('theme', next); } catch (e) {}
+      label();
+    });
+    // Follow device changes until the visitor picks one themselves.
+    if (window.matchMedia) matchMedia('(prefers-color-scheme: light)').addEventListener('change', e => {
+      let saved = null;
+      try { saved = localStorage.getItem('theme'); } catch (err) {}
+      if (!saved) { document.body.dataset.theme = e.matches ? 'light' : 'dark'; label(); }
+    });
     // Fixed pseudo-random layout so the sky looks the same on every visit.
     let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
-    const bub = document.querySelector('.sky .bubbles'), st = document.querySelector('.sky .stars'),
-          cl = document.querySelector('.sky .clouds');
+    const bub = document.querySelector('.sky .bubbles'), st = document.querySelector('.sky .stars');
     for (let i = 0; i < 14; i++) {
       const s = document.createElement('span'), d = 18 + rnd() * 70;
       s.style.cssText = `left:${rnd() * 100}%;width:${d}px;height:${d}px;` +
@@ -260,12 +249,6 @@
       s.style.cssText = `left:${rnd() * 100}%;top:${rnd() * 70}%;animation-delay:${-rnd() * 4}s;` +
         `transform:scale(${.4 + rnd() * .8})`;
       st.appendChild(s);
-    }
-    for (let i = 0; i < 7; i++) {
-      const c = document.createElement('b');
-      c.style.cssText = `top:${4 + rnd() * 70}%;--w:${180 + rnd() * 240}px;` +
-        `animation-duration:${90 + rnd() * 80}s;animation-delay:${-rnd() * 160}s`;
-      cl.appendChild(c);
     }
   })();
 </script>
@@ -390,6 +373,11 @@
   }));
   window.addEventListener('hashchange', () => show(location.hash.slice(1), true));
   show(location.hash.slice(1), false);
+  // A shared link (#real-retirement) opens that tab but keeps the page at the
+  // top, so the logo and the tiles are the first thing people see.
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  if (location.hash) window.addEventListener('load', () => window.scrollTo(0, 0));
+  window.scrollTo(0, 0);
 </script>
 </body>
 </html>
