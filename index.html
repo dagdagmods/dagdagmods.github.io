@@ -1,63 +1,136 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Dag Dag Mods: Sims 4 mods with a killer goodbye</title>
-<meta name="description" content="Dag Dag Mods makes free gameplay mods for The Sims 4. Home of EndLife: every death in the game, one elegant menu.">
+<title>Dag Dag Mods: free mods for The Sims 4</title>
+<meta name="description" content="Dag Dag Mods makes free mods for The Sims 4: EndLife and Real Retirement.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&display=swap" rel="stylesheet">
+<!--
+  HOW TO ADD A MOD
+  1. Logo: render it with SimsModding/branding/moodlet_logo_export.html
+     (?lines=Word|Word&a=Emotion&b=Emotion), shrink under 100 KB, save to
+     img/logos/<id>.png. Screenshot: img/<id>.jpg (about 1200 px wide).
+  2. Copy one <section class="mod"> below and fill it in. data-c1 / data-c2
+     are the mod's two moodlet colors (light, dark) from
+     SimsModding/branding/moodlet_palette.html.
+  The moodlet bar builds itself from the sections, in page order.
+  Copy rules: plain and understated, no em-dashes, never mention the creator.
+-->
 <style>
   :root {
-    --bg: #14141c; --panel: #1e1e2a; --ink: #e8e6f0; --dim: #9a96ad;
-    --accent: #7ee0a3; --danger: #e0707e;
+    --bg: #14141c; --panel: #1e1e2a; --panel2: #262636; --ink: #e8e6f0;
+    --dim: #9a96ad; --accent: #7ee0a3; --navy: #16204a;
+    --c1: #7ee0a3; --c2: #1fb44e;
   }
   * { box-sizing: border-box; margin: 0; }
+  html { scroll-behavior: smooth; }
   body { background: var(--bg); color: var(--ink);
          font: 17px/1.6 "Segoe UI", system-ui, sans-serif; }
-  .wrap { max-width: 880px; margin: 0 auto; padding: 24px; }
-  header { text-align: center; padding: 56px 0 32px; }
-  h1 { font-size: 2.6rem; letter-spacing: 1px; }
+  a { color: inherit; }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 0 16px; }
+  h1, h2, h3, .fredoka { font-family: "Fredoka", "Segoe UI", sans-serif; font-weight: 600; }
+
+  /* header */
+  header { text-align: center; padding: 48px 0 28px; }
+  .logo { width: 96px; height: 96px; margin-bottom: 10px; }
+  h1 { font-size: clamp(2.1rem, 7vw, 2.9rem); letter-spacing: 1px; line-height: 1.1; }
   h1 .dag { color: var(--accent); }
-  .tag { color: var(--dim); margin-top: 8px; font-style: italic; }
-  .logo { width: 110px; height: 110px; margin-bottom: 12px; }
-  .card { background: var(--panel); border-radius: 14px; padding: 28px;
-          margin: 28px 0; }
-  .card h2 { font-size: 1.7rem; margin-bottom: 4px; }
-  .card .sub { color: var(--danger); font-weight: 600; margin-bottom: 14px; }
-  ul { padding-left: 22px; margin: 12px 0; }
-  li { margin: 5px 0; }
+  .tag { color: var(--dim); margin-top: 8px; }
+
+  /* the moodlet bar: one tile per mod */
+  .bar { display: flex; justify-content: center; flex-wrap: wrap; gap: 18px;
+         padding: 22px 16px 0; }
+  .tile { background: none; border: 0; padding: 0; cursor: pointer; color: var(--dim);
+          font: 600 0.95rem "Fredoka", "Segoe UI", sans-serif; text-align: center;
+          width: 112px; position: relative; text-decoration: none; }
+  .tile img { width: 96px; height: 96px; display: block; margin: 0 auto 6px;
+              border-radius: 16px; filter: saturate(.6) brightness(.75);
+              transition: transform .15s ease, filter .15s ease; }
+  .tile:hover img, .tile:focus-visible img { filter: none; transform: translateY(-3px); }
+  .tile[aria-selected="true"] { color: var(--ink); }
+  .tile[aria-selected="true"] img { filter: none; transform: translateY(-4px) scale(1.06);
+          box-shadow: 0 10px 26px -8px var(--glow, #000); }
+  .tile:focus-visible { outline: none; }
+  .tile:focus-visible img { outline: 3px solid var(--accent); outline-offset: 4px; }
+  .tile .new { position: absolute; top: -6px; right: 0; background: var(--accent);
+               color: #10231a; font-size: 0.7rem; padding: 1px 8px; border-radius: 99px; }
+  /* caret under the open tile, pointing at its panel like a moodlet tooltip */
+  .tile[aria-selected="true"]::after { content: ""; position: absolute; left: 50%;
+          bottom: -22px; transform: translateX(-50%); border: 12px solid transparent;
+          border-bottom-color: var(--c1, var(--panel)); }
+
+  /* a mod's panel: styled like the game's moodlet tooltip */
+  .mods { padding-top: 20px; }
+  .mod { background: var(--panel); border-radius: 18px; overflow: hidden; margin: 0 0 28px;
+         border: 2px solid #0e0d14; box-shadow: 0 0 0 3px rgba(255,255,255,.08); }
+  .js .mod { display: none; }
+  .js .mod.open { display: block; }
+  .mod-head { padding: 22px 28px 20px;
+              background: linear-gradient(135deg, var(--c1), var(--c2)); position: relative; }
+  .mod-head::after { content: ""; position: absolute; inset: 0;
+              background: linear-gradient(180deg, rgba(255,255,255,.22), rgba(255,255,255,0) 55%);
+              pointer-events: none; }
+  .mod-head h2 { font-size: clamp(1.9rem, 6vw, 2.5rem); line-height: 1.1; color: #f4fbff;
+              -webkit-text-stroke: 6px var(--navy); paint-order: stroke fill; }
+  .mod-head p { font-weight: 600; margin-top: 6px; color: #fff; position: relative; z-index: 1;
+              text-shadow: 0 1px 2px rgba(10,8,30,.9), 0 0 8px rgba(10,8,30,.55); }
+  .mod-head h2 { position: relative; z-index: 1; }
+  .mod-body { padding: 24px 28px 28px; }
+  .shot { width: 100%; height: auto; border-radius: 12px; display: block; margin-bottom: 18px;
+          border: 1px solid #000; }
+  .mod-body > p { margin-bottom: 10px; }
+  .mod ul { padding-left: 22px; margin: 12px 0; }
+  .mod li { margin: 5px 0; }
+  .meta { color: var(--dim); font-size: 0.9rem; margin-top: 14px; }
   .btns { margin-top: 18px; display: flex; gap: 12px; flex-wrap: wrap; }
-  .btn { display: inline-block; padding: 11px 22px; border-radius: 8px;
-         text-decoration: none; font-weight: 700; }
+  .btn { display: inline-block; padding: 11px 22px; border-radius: 10px;
+         text-decoration: none; font: 600 1rem "Fredoka", "Segoe UI", sans-serif; }
   .btn.primary { background: var(--accent); color: #10231a; }
-  .btn.ghost { border: 2px solid var(--dim); color: var(--ink); }
+  .btn.ghost { border: 2px solid #4a4760; color: var(--ink); }
+  .btn:hover { filter: brightness(1.08); }
   .alt { color: var(--dim); margin-top: 12px; font-size: 0.95rem; }
-  .alt a { color: var(--dim); }
+
+  /* shared cards */
+  .card { background: var(--panel); border-radius: 18px; padding: 24px 28px; margin: 0 0 28px; }
+  .card h2 { font-size: 1.5rem; margin-bottom: 8px; }
   .steps { color: var(--dim); }
-  .steps code { background: #2a2a3a; padding: 2px 6px; border-radius: 4px;
-                color: var(--ink); font-size: 0.85em; }
-  footer { text-align: center; color: var(--dim); font-size: 0.85rem;
-           padding: 32px 0 48px; }
-  footer a { color: var(--dim); }
+  .steps ol { padding-left: 22px; }
+  code { background: var(--panel2); padding: 2px 6px; border-radius: 4px;
+         color: var(--ink); font-size: 0.85em; word-break: break-word; }
+
+  footer { text-align: center; color: var(--dim); font-size: 0.85rem; padding: 12px 0 48px; }
+  footer .links { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 20px;
+                  margin-bottom: 14px; font: 600 1rem "Fredoka", "Segoe UI", sans-serif; }
+  footer .links a { color: var(--ink); text-decoration: none; }
+  footer .links a:hover { color: var(--accent); }
+  footer p { margin-top: 6px; }
+
+  @media (max-width: 560px) {
+    .bar { gap: 10px; }
+    .tile { width: 88px; font-size: 0.85rem; }
+    .tile img { width: 76px; height: 76px; border-radius: 13px; }
+    .mod-head, .mod-body, .card { padding-left: 18px; padding-right: 18px; }
+  }
 </style>
 </head>
 <body>
+<script>document.documentElement.className = 'js';</script>
 <div class="wrap">
 
 <header>
   <!-- original Dag Dag Mods logo: a friendly skull waving goodbye -->
   <svg class="logo" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dag Dag Mods logo">
     <circle cx="60" cy="60" r="56" fill="#1e1e2a" stroke="#7ee0a3" stroke-width="3"/>
-    <!-- skull -->
     <ellipse cx="57" cy="52" rx="26" ry="24" fill="#e8e6f0"/>
     <rect x="46" y="68" width="22" height="12" rx="5" fill="#e8e6f0"/>
-    <!-- eyes: one open, one winking -->
     <ellipse cx="48" cy="52" rx="6" ry="7" fill="#14141c"/>
     <path d="M61 52 q6 -4 12 0" stroke="#14141c" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-    <!-- nose + tooth gaps -->
     <path d="M56 60 l3 5 l3 -5 z" fill="#14141c"/>
     <line x1="53" y1="70" x2="53" y2="78" stroke="#14141c" stroke-width="2"/>
     <line x1="60" y1="70" x2="60" y2="78" stroke="#14141c" stroke-width="2"/>
-    <!-- waving bony hand -->
     <g stroke="#e8e6f0" stroke-width="4" stroke-linecap="round">
       <line x1="88" y1="74" x2="96" y2="52"/>
       <line x1="96" y1="52" x2="92" y2="42"/>
@@ -66,29 +139,64 @@
     </g>
   </svg>
   <h1><span class="dag">DAG DAG</span> MODS</h1>
-  <p class="tag">Sims 4 mods with a killer goodbye.</p>
+  <p class="tag">Mods for The Sims 4. Free, always.</p>
 </header>
 
-<div class="card">
-  <h2>EndLife</h2>
-  <p class="sub">Every death in the game. One elegant menu.</p>
-  <p>Click any Sim → <strong>End Life...</strong> → choose from the game's
-  complete catalogue of demises: poison, Murphy bed, vicious killer rabbit,
-  broken heart, and everything else your packs provide. Full death scenes,
-  Grim Reaper included. Your own Sim walks away whistling.</p>
-  <ul>
-    <li>🎯 The clicked Sim dies, never your storyteller</li>
-    <li>🐶 Pets exempt; babies, infants &amp; toddlers protected</li>
-    <li>🧳 Works on anyone you welcome in: befriend a stranger, invite them onto your lot, and the menu is waiting</li>
-    <li>📦 No packs required: the menu adapts to what you own</li>
-    <li>⌨️ Console commands handle Sims elsewhere in the world</li>
-  </ul>
-  <div class="btns">
-    <a class="btn primary" href="https://www.curseforge.com/sims4/mods/endlife" target="_blank" rel="noopener">Get EndLife on CurseForge</a>
-    <a class="btn ghost" href="https://www.patreon.com/c/DagDagMods" target="_blank" rel="noopener">Support on Patreon</a>
+<nav class="bar" id="bar" role="tablist" aria-label="Mods"></nav>
+
+<main class="mods">
+
+<section class="mod" id="endlife" data-name="EndLife" data-logo="img/logos/endlife.png"
+         data-c1="#8E0A6A" data-c2="#EB334F">
+  <div class="mod-head">
+    <h2>EndLife</h2>
+    <p>Every death in the game. One menu. No cheats required.</p>
   </div>
-  <p class="alt">Or <a href="https://github.com/dagdagmods/dagdagmods.github.io/releases/download/v1.1.0/EndLife_v1.1.0.zip">download v1.1 directly</a>.</p>
-</div>
+  <div class="mod-body">
+    <img class="shot" src="img/endlife.jpg" alt="The Grim Reaper arrives beside a nervous Sim" width="1200" height="676">
+    <p>Click any Sim, choose <strong>End Life...</strong>, and pick from the game's
+    catalogue of demises: poison, Murphy bed, vicious killer rabbit, broken heart,
+    and everything else your packs provide. Full death scenes, Grim Reaper
+    included. Your own Sim walks away whistling.</p>
+    <ul>
+      <li>The clicked Sim passes, never your storyteller</li>
+      <li>Pets exempt; babies, infants and toddlers protected</li>
+      <li>Works on anyone you welcome in: befriend a stranger, invite them onto your lot, and the menu is waiting</li>
+      <li>No packs required: the menu adapts to what you own</li>
+    </ul>
+    <div class="btns">
+      <a class="btn primary" href="https://www.curseforge.com/sims4/mods/endlife" target="_blank" rel="noopener">Get EndLife on CurseForge</a>
+    </div>
+    <p class="alt">Or <a href="https://github.com/dagdagmods/dagdagmods.github.io/releases/download/v1.1.0/EndLife_v1.1.0.zip">download v1.1 directly</a>.</p>
+  </div>
+</section>
+
+<section class="mod" id="real-retirement" data-name="Real Retirement" data-logo="img/logos/real-retirement.png"
+         data-c1="#68F3F9" data-c2="#1FB44E" data-new>
+  <div class="mod-head">
+    <h2>Real Retirement</h2>
+    <p>Retirement should be a chapter, not a blank page.</p>
+  </div>
+  <div class="mod-body">
+    <img class="shot" src="img/real-retirement.jpg" alt="A retired Sim's career panel: Retired Extraterrestrial Explorer, with level, days worked and pension" width="1200" height="674">
+    <p>In the base game, a retired Sim's career panel forgets the job they held.
+    Real Retirement keeps their working life on the card: the job they retired
+    from, the career and level they reached, the days they put in, and the
+    pension it earned them.</p>
+    <ul>
+      <li>Drawn with the game's own career card and job titles</li>
+      <li>Works with every career from every pack you own</li>
+      <li>Appears the moment a Sim retires, and for Sims who retired before you installed it</li>
+      <li>No settings, nothing to click. Retiring works exactly as before.</li>
+    </ul>
+    <div class="btns">
+      <a class="btn primary" href="https://www.curseforge.com/sims4/mods/real-retirement" target="_blank" rel="noopener">Get Real Retirement on CurseForge</a>
+    </div>
+    <p class="alt">Or <a href="https://github.com/dagdagmods/dagdagmods.github.io/releases/download/realretirement-v1.0.0/RealRetirement_v1.0.0.zip">download v1.0 directly</a>.</p>
+  </div>
+</section>
+
+</main>
 
 <div class="card steps">
   <h2>Installing mods</h2>
@@ -100,11 +208,50 @@
 </div>
 
 <footer>
-  <p>All mods free, forever. Donations welcome, never required.</p>
+  <div class="links">
+    <a href="https://www.patreon.com/c/DagDagMods" target="_blank" rel="noopener">Patreon</a>
+    <a href="https://www.tiktok.com/@dagdagmods.sims" target="_blank" rel="noopener">TikTok</a>
+    <a href="https://dagdagmods.tumblr.com" target="_blank" rel="noopener">Tumblr</a>
+  </div>
+  <p>All mods free, forever. Donations welcome, never required. 💀</p>
   <p>Dag Dag Mods is not affiliated with or endorsed by Electronic Arts or Maxis.<br>
   The Sims is a trademark of Electronic Arts Inc.</p>
 </footer>
 
 </div>
+<script>
+  // Build the moodlet bar from the mod sections and open the one in the URL
+  // (#endlife, #real-retirement), else the first.
+  const mods = [...document.querySelectorAll('.mod')];
+  const bar = document.getElementById('bar');
+  const tiles = mods.map(m => {
+    const a = document.createElement('a');
+    a.className = 'tile'; a.href = '#' + m.id; a.setAttribute('role', 'tab');
+    a.setAttribute('aria-controls', m.id);
+    a.innerHTML = `<img src="${m.dataset.logo}" alt="" width="96" height="96">${m.dataset.name}` +
+                  (m.hasAttribute('data-new') ? '<span class="new">New</span>' : '');
+    a.style.setProperty('--glow', m.dataset.c2);
+    a.style.setProperty('--c1', m.dataset.c1);
+    m.style.setProperty('--c1', m.dataset.c1);
+    m.style.setProperty('--c2', m.dataset.c2);
+    m.setAttribute('role', 'tabpanel');
+    bar.appendChild(a);
+    return a;
+  });
+  function show(id, scroll) {
+    const i = Math.max(0, mods.findIndex(m => m.id === id));
+    mods.forEach((m, j) => m.classList.toggle('open', j === i));
+    tiles.forEach((t, j) => t.setAttribute('aria-selected', j === i));
+    if (scroll) bar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  tiles.forEach(t => t.addEventListener('click', e => {
+    e.preventDefault();
+    const id = t.getAttribute('aria-controls');
+    history.replaceState(null, '', '#' + id);
+    show(id, false);
+  }));
+  window.addEventListener('hashchange', () => show(location.hash.slice(1), true));
+  show(location.hash.slice(1), false);
+</script>
 </body>
 </html>
