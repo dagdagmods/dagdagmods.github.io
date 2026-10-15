@@ -79,16 +79,20 @@
                 var(--rainbow);
     background-size: 100% 100%, 300% 100%; animation: rainbow 2.4s linear infinite; }
   body[data-theme="light"] .socials a:hover svg { filter: drop-shadow(0 1px 2px rgba(0, 10, 40, .6)); }
-  .socials a::after { content: attr(data-label); position: absolute; top: calc(100% + 8px); left: 50%;
-    transform: translate(-50%, -4px); padding: 3px 11px 4px; border-radius: 999px; white-space: nowrap;
-    font: 600 .8rem/1.2 "Fredoka", "Segoe UI", sans-serif; color: #fff; pointer-events: none;
-    text-shadow: 0 1px 2px rgba(10, 8, 30, .85); background: var(--rainbow); background-size: 300% 100%;
-    border: 1px solid rgba(255,255,255,.8); box-shadow: 0 4px 12px rgba(0, 10, 40, .35);
-    opacity: 0; transition: opacity .15s, transform .15s; animation: rainbow 2.4s linear infinite; z-index: 3; }
-  .socials a:hover::after, .socials a:focus-visible::after { opacity: 1; transform: translate(-50%, 0); }
+  /* The name tag: a classic early-2000s tooltip box (Taylor 2026-10-15:
+     the old-style box, but rainbow like the cursor). Pale XP-style fill,
+     Tahoma, square corners, a shifting rainbow border, a small delay and a
+     spot just below-right of the bubble, like the system tooltip. */
+  .socials a::after { content: attr(data-label); position: absolute; top: calc(100% + 6px); left: 60%;
+    padding: 2px 6px 3px; border: 2px solid transparent; border-radius: 1px; white-space: nowrap;
+    font: 12px/1.25 Tahoma, Verdana, "Segoe UI", sans-serif; color: #000; text-shadow: none;
+    background: linear-gradient(#ffffe1, #ffffe1) padding-box,
+                linear-gradient(90deg, #ff6fa8, #ffb35c, #ffe45c, #6fe39a, #5cc8ff, #8f7dff, #ff6fa8) border-box;
+    background-size: 100% 100%, 300% 100%; box-shadow: 2px 2px 3px rgba(0, 0, 0, .35);
+    pointer-events: none; opacity: 0; transition: opacity .1s; transition-delay: 0s; z-index: 3;
+    animation: rainbow 2.4s linear infinite; }
+  .socials a:hover::after, .socials a:focus-visible::after { opacity: 1; transition-delay: .35s; }
   @keyframes rainbow { to { background-position: 0 0, 300% 0; } }
-  .socials a::after { animation-name: rainbow-tag; }
-  @keyframes rainbow-tag { to { background-position: 300% 0; } }
   @media (prefers-reduced-motion: reduce) { .socials a, .socials a::after { animation: none !important; } }
   .socials svg { width: 17px; height: 17px; filter: drop-shadow(0 1px 2px rgba(0, 10, 40, .6)); }
   body[data-theme="light"] .socials a { color: #16204a; border-color: rgba(255,255,255,.9);
