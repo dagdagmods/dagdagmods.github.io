@@ -115,6 +115,8 @@
   .btn.ghost { border: 2px solid #4a4760; color: var(--ink); }
   .btn:hover { filter: brightness(1.08); }
   .alt { color: var(--dim); margin-top: 12px; font-size: 0.95rem; }
+  .js .direct a[data-for] { display: none; }
+  .js .direct a[data-for].on { display: inline; }
 
   /* shared cards */
   .card { background: var(--panel); border-radius: 18px; padding: 24px 28px; margin: 0 0 28px; }
@@ -396,12 +398,13 @@
     <li>Game Options → Other → ✔ <em>Script Mods Allowed</em></li>
     <li>Restart the game. Dag dag!</li>
   </ol>
-  <!-- Direct downloads (Taylor 2026-10-15): one line here instead of under
-       each mod, so every mod card has a single CurseForge button. Add new
-       mods to this line. -->
-  <p class="alt">Or download directly:
-    <a href="https://github.com/dagdagmods/dagdagmods.github.io/releases/download/v1.1.0/EndLife_v1.1.0.zip">End Life 1.1</a> ·
-    <a href="https://github.com/dagdagmods/dagdagmods.github.io/releases/download/realretirement-v1.0.0/RealRetirement_v1.0.0.zip">Real Retirement 1.0</a></p>
+  <!-- Direct downloads (Taylor 2026-10-15): here instead of under each mod,
+       so every mod card has a single CurseForge button. Only the open mod's
+       link shows (data-for = the mod section's id); without JS all show.
+       Add each new mod here. -->
+  <p class="alt direct">Download directly:
+    <a data-for="endlife" href="https://github.com/dagdagmods/dagdagmods.github.io/releases/download/v1.1.0/EndLife_v1.1.0.zip">End Life 1.1</a>
+    <a data-for="real-retirement" href="https://github.com/dagdagmods/dagdagmods.github.io/releases/download/realretirement-v1.0.0/RealRetirement_v1.0.0.zip">Real Retirement 1.0</a></p>
 </div>
 
 <footer>
@@ -440,6 +443,8 @@
     const i = Math.max(0, mods.findIndex(m => m.id === id));
     mods.forEach((m, j) => m.classList.toggle('open', j === i));
     tiles.forEach((t, j) => t.setAttribute('aria-selected', j === i));
+    document.querySelectorAll('.direct a[data-for]').forEach(a =>
+      a.classList.toggle('on', a.dataset.for === mods[i].id));
     if (scroll) bar.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
   tiles.forEach(t => t.addEventListener('click', e => {
