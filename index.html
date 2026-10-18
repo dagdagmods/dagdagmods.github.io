@@ -117,6 +117,9 @@
   .tile:focus-visible img { outline: 3px solid var(--accent); outline-offset: 4px; }
   .tile .new { position: absolute; top: -6px; right: 0; background: var(--accent);
                color: #10231a; font-size: 0.7rem; padding: 1px 8px; border-radius: 99px; }
+  /* "Updated": same pill, in the mod's own colours, for fresh updates */
+  .tile .new.upd { background: linear-gradient(135deg, var(--c1), var(--glow)); color: #fff;
+               text-shadow: 0 1px 1px rgba(0,0,0,.35); }
   /* caret under the open tile, pointing at its panel like a moodlet tooltip */
   .tile[aria-selected="true"]::after { content: ""; position: absolute; left: 50%;
           bottom: -22px; transform: translateX(-50%); border: 12px solid transparent;
@@ -444,7 +447,7 @@
 <main class="mods">
 
 <section class="mod" id="endlife" data-name="End Life" data-logo="img/logos/endlife.png"
-         data-c1="#8E0A6A" data-c2="#EB334F">
+         data-c1="#8E0A6A" data-c2="#EB334F" data-updated>
   <div class="mod-head">
     <h2>End Life</h2>
     <p>Every death in the game. One menu. No cheats required.</p>
@@ -537,7 +540,8 @@
     a.className = 'tile'; a.href = '#' + m.id; a.setAttribute('role', 'tab');
     a.setAttribute('aria-controls', m.id);
     a.innerHTML = `<img src="${m.dataset.logo}" alt="" width="96" height="96">${m.dataset.name}` +
-                  (m.hasAttribute('data-new') ? '<span class="new">New</span>' : '');
+                  (m.hasAttribute('data-new') ? '<span class="new">New</span>' :
+                   m.hasAttribute('data-updated') ? '<span class="new upd">Updated</span>' : '');
     a.style.setProperty('--glow', m.dataset.c2);
     a.style.setProperty('--c1', m.dataset.c1);
     m.style.setProperty('--c1', m.dataset.c1);
